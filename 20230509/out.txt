@@ -1,0 +1,1 @@
+nc: /usr/bin/nc /usr/bin/nc.openbsd /usr/share/man/man1/nc.1.gz
