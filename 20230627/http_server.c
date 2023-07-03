@@ -74,9 +74,9 @@ void *thread_new_client(void *param)
         {
             DIR *dir;
             struct dirent *entry;
-            char rel_dir[256] = ".";
-            strcat(rel_dir, uri);
-            dir = opendir(rel_dir);
+            char open_dir[256] = "../../baitap/";
+            strcat(open_dir, uri);
+            dir = opendir(open_dir);
 
             if (dir != NULL)
             {
@@ -109,9 +109,9 @@ void *thread_new_client(void *param)
         {
             DIR *dir;
             struct dirent *entry;
-            char rel_dir[256] = ".";
-            strcat(rel_dir, uri);
-            dir = opendir(rel_dir);
+            char open_dir[256] = "../../";
+            strcat(open_dir, uri);
+            dir = opendir(open_dir);
             if (dir != NULL)
             {
                 char response[4096] = "<html><body>";
@@ -133,12 +133,12 @@ void *thread_new_client(void *param)
                 send(client, header, strlen(header), 0);
                 send(client, response, strlen(response), 0);
             }
-            else if (strstr(rel_dir, ".txt") != NULL || strstr(rel_dir, ".c") != NULL || strstr(rel_dir, ".cpp") != NULL)
+            else if (strstr(open_dir, ".txt") != NULL || strstr(open_dir, ".c") != NULL || strstr(open_dir, ".cpp") != NULL)
             {
                 char *header = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n";
                 send(client, header, strlen(header), 0);
 
-                FILE *f = fopen(rel_dir, "rb");
+                FILE *f = fopen(open_dir, "rb");
                 while (1)
                 {
                     int len = fread(buf, 1, sizeof(buf), f);
@@ -148,9 +148,9 @@ void *thread_new_client(void *param)
                 }
                 fclose(f);
             }
-            else if (strstr(rel_dir, ".jpg") != NULL || strstr(rel_dir, ".png") != NULL)
+            else if (strstr(open_dir, ".jpg") != NULL || strstr(open_dir, ".png") != NULL)
             {
-                FILE *f = fopen(rel_dir, "rb");
+                FILE *f = fopen(open_dir, "rb");
 
                 char header[512];
                 fseek(f, 0, SEEK_END);
@@ -168,9 +168,9 @@ void *thread_new_client(void *param)
                 }
                 fclose(f);
             }
-            else if (strstr(rel_dir, ".mp3") != NULL)
+            else if (strstr(open_dir, ".mp3") != NULL)
             {
-                FILE *f = fopen(rel_dir, "rb");
+                FILE *f = fopen(open_dir, "rb");
 
                 char header[512];
                 fseek(f, 0, SEEK_END);
@@ -181,8 +181,6 @@ void *thread_new_client(void *param)
 
                 //dua con tro ve dau file de tai file
                 fseek(f, 0, SEEK_SET);
-                
-                
                 while (1)
                 {
                     int len = fread(buf, 1, sizeof(buf), f);
